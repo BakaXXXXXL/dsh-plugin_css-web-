@@ -1,6 +1,6 @@
 # dsh-plugin-css
 
-Cherry Studio V2 毛玻璃主题（glassmorphism）适配 **DeepSeek Harness Web GUI**（`dsh web`）的客户端插件。
+由deepharness自己完成的适配 **DeepSeek Harness Web GUI**（`dsh web`）的客户端插件。
 
 插件包名：`dsh-cherry-glass`。纯 client 插件：向页面注入一份全局样式表，覆写 DSH 的 `--dsw-*` 设计令牌，并在稳定 `data-*` 接缝上施加玻璃效果。亮/暗两套值跟随 DSH 外观设置（浅色/深色/跟随系统）自动切换，并兼容 dsh-desktop（Electron）桌面壳。
 
@@ -43,17 +43,30 @@ dsh-plugin-css/
 
 ## 安装
 
-### 方式一：命令行安装
+以下命令中的 `web` 为 profile 名称，请替换为你实际使用的 profile。
+
+### 方式一：从 GitHub 仓库安装（推荐）
+
+仓库已包含构建产物（`lib/`），安装后无需本地构建，适用于任何机器：
 
 ```sh
-dsh plugin --profile web add C:/AAA/dsh_Agent/dsh-plugin_css
+dsh plugin --profile web add github:BakaXXXXXL/dsh-plugin_css-web-
 ```
 
-### 方式二：手动安装
+### 方式二：本地目录安装
+
+适用于本机已有源码、需要修改主题的场合：
+
+```sh
+git clone https://github.com/BakaXXXXXL/dsh-plugin_css-web-.git
+dsh plugin --profile web add <克隆到的目录>
+```
+
+### 方式三：手动编辑 profile
 
 编辑 `$DSH_HOME/profiles/web/package.json`：
 
-- `dependencies` 增加 `"dsh-cherry-glass": "file:C:/AAA/dsh_Agent/dsh-plugin_css"`
+- `dependencies` 增加 `"dsh-cherry-glass": "github:BakaXXXXXL/dsh-plugin_css-web-"`
 - `dsh.profile.bundles` 增加 `"dsh-cherry-glass"`
 
 然后在 profile 目录执行：
