@@ -1,0 +1,8 @@
+# dsh-cherry-glass bundle patch: mounts the theme plugin row into a dsh
+# profile. The host half is a no-op; the browser half (exports["./client"],
+# discovered through the package.json dsh.client declaration) injects the
+# Cherry-glass stylesheet. Install with:
+#   dsh plugin --profile <name> add <this package>
+- insert:
+    - id: cherry-glass
+      name: dsh-cherry-glass

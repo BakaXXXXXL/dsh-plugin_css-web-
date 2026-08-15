@@ -1,0 +1,37 @@
+{
+  "name": "dsh-cherry-glass",
+  "version": "0.6.0",
+  "description": "Cherry Studio V2 glassmorphism theme adapted for the DeepSeek Harness web GUI (dsh web) and the dsh-desktop Electron shell. A pure client plugin: injects a global stylesheet that restyles the --dsw-* design tokens and adds frosted-glass surfaces.",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "cordis.patch.yml",
+    "README.md",
+    "styles"
+  ],
+  "license": "MIT",
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": []
+    }
+  },
+  "scripts": {
+    "build": "powershell -ExecutionPolicy Bypass -File scripts/build.ps1",
+    "gen:css": "node scripts/gen-css.mjs"
+  },
+  "peerDependencies": {},
+  "devDependencies": {
+    "tsdown": "0.22.2"
+  }
+}
