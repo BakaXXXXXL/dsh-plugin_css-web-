@@ -1,6 +1,6 @@
 # dsh-plugin-css
 
-适配 **DeepSeek Harness Web GUI**（`dsh web`）的客户端插件。
+由deepharness自己完成的适配 **DeepSeek Harness Web GUI**（`dsh web`）的客户端插件。
 
 插件包名：`dsh-cherry-glass`。纯 client 插件：向页面注入一份全局样式表，覆写 DSH 的 `--dsw-*` 设计令牌，并在稳定 `data-*` 接缝上施加玻璃效果。亮/暗两套值跟随 DSH 外观设置（浅色/深色/跟随系统）自动切换，并兼容 dsh-desktop（Electron）桌面壳。
 
