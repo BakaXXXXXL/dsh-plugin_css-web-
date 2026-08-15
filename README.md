@@ -12,6 +12,16 @@ Cherry Studio V2 毛玻璃主题（glassmorphism）适配 **DeepSeek Harness Web
 - 设置面板、弹窗、菜单等浮层表面接近不透明，不受背景图干扰
 - 代码块、滚动条、选中文本按 Cherry 蓝色调统一
 
+## 效果预览
+
+浅色主题：
+
+![浅色主题](light.png)
+
+深色主题：
+
+![深色主题](dark.png)
+
 ## 目录结构
 
 ```
