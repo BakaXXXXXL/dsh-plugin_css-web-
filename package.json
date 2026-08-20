@@ -14,7 +14,8 @@
     "lib",
     "cordis.patch.yml",
     "README.md",
-    "styles"
+    "styles",
+    "assets"
   ],
   "license": "MIT",
   "dsh": {

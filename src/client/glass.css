@@ -55,7 +55,7 @@
    ------------------------------------------------------------------------- */
 html body {
     /* --- 背景图与遮罩（亮色，低遮罩保证主对话页背景图清晰） --- */
-    --cherry-glass-bg-image: url('https://pic1.imgdb.cn/item/67d544f988c538a9b5bec3c7.jpg');
+    --cherry-glass-bg-image: url('/plugins/dsh-cherry-glass/bg-light.jpg');
     --cherry-glass-overlay-start: rgba(245, 248, 250, 0.1);
     --cherry-glass-overlay-end: rgba(235, 240, 242, 0.16);
 
@@ -134,7 +134,7 @@ html body {
    ------------------------------------------------------------------------- */
 html body[data-ds-dark-theme] {
     /* --- 背景图与遮罩（暗色，带淡蓝磨砂质感，低遮罩保清晰） --- */
-    --cherry-glass-bg-image: url('https://pic1.imgdb.cn/item/67d55d0e88c538a9b5bec87f.png');
+    --cherry-glass-bg-image: url('/plugins/dsh-cherry-glass/bg-dark.png');
     --cherry-glass-overlay-start: rgba(10, 75, 122, 0.12);
     --cherry-glass-overlay-end: rgba(10, 75, 122, 0.2);
 
