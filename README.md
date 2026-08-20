@@ -22,6 +22,18 @@
 
 ![深色主题](dark.png)
 
+## 背景图
+
+主题内置两张背景原图（插件自托管，由 host 路由 `/plugins/dsh-cherry-glass/` 提供，不依赖外部图床；亮/暗主题自动切换对应图片）：
+
+亮色背景图（3840×2160）：
+
+![亮色背景图](assets/bg-light.jpg)
+
+暗色背景图（2048×1090）：
+
+![暗色背景图](assets/bg-dark.png)
+
 ## 目录结构
 
 ```
@@ -31,11 +43,12 @@ dsh-plugin-css/
 │   │   ├── glass.css        # 主题样式（唯一需要编辑的文件）
 │   │   ├── glass-css.js     # 由 glass.css 生成的 JS 模块（勿手改）
 │   │   └── index.js         # 浏览器入口：注入/卸载 <style>
-│   └── index.js             # 宿主入口（无操作占位）
+│   └── index.js             # 宿主入口（提供背景图静态路由）
 ├── scripts/
 │   ├── build.ps1            # 一键构建
 │   ├── clean-dist.ps1       # 清理被注入到 dist/index.html 的旧样式
 │   └── gen-css.mjs          # 从 glass.css 生成 glass-css.js
+├── assets/                  # 背景原图（bg-light.jpg / bg-dark.png）
 ├── lib/                     # 构建产物（client bundle）
 ├── cordis.patch.yml         # bundle 补丁（行 id: cherry-glass）
 └── package.json
