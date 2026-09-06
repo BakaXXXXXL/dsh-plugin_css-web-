@@ -1,6 +1,17 @@
 /* =========================================================================
-   DeepSeek Harness · Cherry Studio V2 毛玻璃主题适配（v0.6）
+   DeepSeek Harness · Cherry Studio V2 毛玻璃主题适配（v0.8）
    （由 cherry-studio-v2-glass-theme.css 适配而来）
+
+   v0.8（适配 DSH v0.1.2-rc.1）：
+     · 新增 --dsw-specific-sidebar-nav-item-active / hover 令牌覆写（v0.1.2 新增）。
+     · 新增 --dsw-alias-toast-bg / tooltip-bg 覆写，保持浮层近不透明。
+     · 新增 --dsw-alias-label-* / brand-text / brand-primary-invert 覆写，
+       保证半透明表面上文字对比度。
+     · 新增 --dsw-alias-bg-mask-* 覆写，灯箱/拖拽遮罩保持不透明。
+     · 新增过程折叠按钮 [data-turn-process]、回合尾操作 [data-turn-tail] 的
+       半透明样式覆盖，与 v0.1.2 新增的 UI 元素保持视觉一致。
+     · 验证：所有原有 --dsw-* 令牌均未重命名/移除，data-slot='sidebar' /
+       data-composer-card / data-ds-dark-theme 等结构选择器仍然有效。
 
    v0.6（桌面端支持）：
      · dsh-desktop（Electron shell，win32/darwin）下 fork 的 base.css 会把
@@ -75,8 +86,17 @@ html body {
     --dsw-specific-tip: rgba(248, 250, 252, 0.8);
     --dsw-specific-login-input: rgba(248, 250, 252, 0.7);
 
+    /* --- 遮罩层（灯箱、拖拽、下拉，保持不透明以覆盖背景图） --- */
+    --dsw-alias-bg-mask-1: rgba(0, 0, 0, 0.28);
+    --dsw-alias-bg-mask-2: rgba(0, 0, 0, 0.14);
+    --dsw-alias-bg-mask-3: rgba(0, 0, 0, 0.52);
+    --dsw-alias-bg-mask-photo: rgba(0, 0, 0, 0.88);
+    --dsw-alias-bg-mask-drop: rgba(255, 255, 255, 0.75);
+
     /* --- 侧边栏（浅色玻璃：半透明填充 + 渐变叠加，无 blur——见结构玻璃注释） --- */
     --dsw-specific-sidebar-fill: rgba(245, 248, 250, 0.5);
+    --dsw-specific-sidebar-nav-item-active: rgba(60, 130, 220, 0.1);
+    --dsw-specific-sidebar-nav-item-hover: rgba(60, 130, 220, 0.06);
     --cherry-glass-sidebar-start: rgba(255, 255, 255, 0.45);
     --cherry-glass-sidebar-end: rgba(255, 255, 255, 0.18);
     --cherry-glass-sidebar-tint: rgba(59, 130, 246, 0.12);
@@ -90,7 +110,9 @@ html body {
 
     /* --- 主题色（蓝，Cherry 同款） --- */
     --dsw-alias-brand-primary: rgb(60, 130, 220);
+    --dsw-alias-brand-primary-invert: rgb(255, 255, 255);
     --dsw-alias-brand-primary-new-colorprimary-new-color: rgb(60, 130, 220);
+    --dsw-alias-brand-text: rgb(60, 130, 220);
     --dsw-alias-button-primary-fill: rgb(60, 130, 220);
     --dsw-alias-button-primary-hover: rgb(52, 116, 200);
     --dsw-alias-button-info-fill: rgb(60, 130, 220);
@@ -100,6 +122,15 @@ html body {
     --dsw-alias-interactive-bg-active: rgba(38, 49, 72, 0.08);
     --dsw-alias-interactive-bg-hover-accent: rgba(60, 130, 220, 0.12);
     --dsw-specific-sidebar-nav-item-active-accent: rgba(60, 130, 220, 0.14);
+
+    /* --- 文字标签（保证半透明表面上对比度） --- */
+    --dsw-alias-label-primary: rgba(15, 17, 21, 0.92);
+    --dsw-alias-label-secondary: rgba(97, 102, 107, 0.88);
+    --dsw-alias-label-tertiary: rgba(129, 133, 140, 0.8);
+
+    /* --- 浮层（Toast / Tooltip，近不透明） --- */
+    --dsw-alias-toast-bg: rgba(251, 253, 254, 0.94);
+    --dsw-alias-tooltip-bg: rgba(44, 44, 46, 0.92);
 
     /* --- 边框 --- */
     --dsw-alias-border-l1: rgba(0, 0, 0, 0.05);
@@ -151,8 +182,17 @@ html body[data-ds-dark-theme] {
     --dsw-specific-tip: rgba(30, 32, 37, 0.8);
     --dsw-specific-login-input: rgba(28, 30, 35, 0.7);
 
+    /* --- 遮罩层 --- */
+    --dsw-alias-bg-mask-1: rgba(0, 0, 0, 0.55);
+    --dsw-alias-bg-mask-2: rgba(0, 0, 0, 0.22);
+    --dsw-alias-bg-mask-3: rgba(0, 0, 0, 0.52);
+    --dsw-alias-bg-mask-photo: rgba(0, 0, 0, 0.88);
+    --dsw-alias-bg-mask-drop: rgba(39, 39, 48, 0.75);
+
     /* --- 侧边栏（深色玻璃：半透明填充 + 渐变叠加，无 blur） --- */
     --dsw-specific-sidebar-fill: rgba(26, 28, 33, 0.55);
+    --dsw-specific-sidebar-nav-item-active: rgba(70, 150, 230, 0.1);
+    --dsw-specific-sidebar-nav-item-hover: rgba(70, 150, 230, 0.06);
     --cherry-glass-sidebar-start: rgba(35, 38, 43, 0.45);
     --cherry-glass-sidebar-end: rgba(20, 22, 26, 0.2);
     --cherry-glass-sidebar-tint: rgba(70, 150, 230, 0.12);
@@ -166,7 +206,9 @@ html body[data-ds-dark-theme] {
 
     /* --- 主题色 --- */
     --dsw-alias-brand-primary: rgb(70, 150, 230);
+    --dsw-alias-brand-primary-invert: rgb(15, 17, 21);
     --dsw-alias-brand-primary-new-colorprimary-new-color: rgb(70, 150, 230);
+    --dsw-alias-brand-text: rgb(70, 150, 230);
     --dsw-alias-button-primary-fill: rgb(70, 150, 230);
     --dsw-alias-button-primary-hover: rgb(92, 168, 242);
     --dsw-alias-button-info-fill: rgb(70, 150, 230);
@@ -176,6 +218,15 @@ html body[data-ds-dark-theme] {
     --dsw-alias-interactive-bg-active: rgba(255, 255, 255, 0.1);
     --dsw-alias-interactive-bg-hover-accent: rgba(70, 150, 230, 0.18);
     --dsw-specific-sidebar-nav-item-active-accent: rgba(70, 150, 230, 0.18);
+
+    /* --- 文字标签 --- */
+    --dsw-alias-label-primary: rgba(249, 250, 251, 0.92);
+    --dsw-alias-label-secondary: rgba(207, 211, 214, 0.85);
+    --dsw-alias-label-tertiary: rgba(173, 178, 184, 0.75);
+
+    /* --- 浮层 --- */
+    --dsw-alias-toast-bg: rgba(34, 36, 42, 0.94);
+    --dsw-alias-tooltip-bg: rgba(44, 44, 46, 0.92);
 
     /* --- 边框 --- */
     --dsw-alias-border-l1: rgba(255, 255, 255, 0.05);
@@ -313,6 +364,29 @@ div:has(> [data-slot='sidebar'])::before {
    实际命中"用户栈"长方形容器，产生违和的长方形毛玻璃边框——v0.4 已整组移除
    （气泡元素本身是哈希类名，无稳定 data-* 接缝，不宜继续做结构装饰）。
    ------------------------------------------------------------------------- */
+
+/* -------------------------------------------------------------------------
+   v0.1.2 新增 UI 元素适配
+   ------------------------------------------------------------------------- */
+
+/* 过程折叠按钮（v0.1.2 新增：可折叠的推理/工具调用过程区域） */
+[data-turn-process] {
+    background-color: rgba(255, 255, 255, 0.35);
+    border-color: rgba(0, 0, 0, 0.06);
+    transition:
+        background-color var(--cherry-glass-transition-duration) var(--cherry-glass-transition-easing),
+        border-color var(--cherry-glass-transition-duration) var(--cherry-glass-transition-easing);
+}
+
+html body[data-ds-dark-theme] [data-turn-process] {
+    background-color: rgba(35, 36, 42, 0.45);
+    border-color: rgba(255, 255, 255, 0.06);
+}
+
+/* 回合尾操作栏（复制、分支、重新生成等按钮容器） */
+[data-turn-tail] {
+    transition: opacity var(--cherry-glass-transition-duration) var(--cherry-glass-transition-easing);
+}
 
 /* -------------------------------------------------------------------------
    链接 / 选中文本
