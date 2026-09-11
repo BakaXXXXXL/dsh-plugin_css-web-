@@ -2,14 +2,14 @@
 
 由deepharness自己完成的适配 **DeepSeek Harness Web GUI**（`dsh web`）的客户端插件。
 
-> **当前版本：v0.8.0** —— 适配 DSH v0.1.2-rc.1（详见文末[版本记录](#版本记录)）
+> **当前版本：v0.8.1** —— 适配 DSH v0.1.5（详见文末[版本记录](#版本记录)）
 
 插件包名：`dsh-cherry-glass`。纯 client 插件：向页面注入一份全局样式表，覆写 DSH 的 `--dsw-*` 设计令牌，并在稳定 `data-*` 接缝上施加玻璃效果。亮/暗两套值跟随 DSH 外观设置（浅色/深色/跟随系统）自动切换，并兼容 dsh-desktop（Electron）桌面壳。
 
 ## 特性
 
 - 背景图铺底，主对话页表面高度透明，背景图清晰可见
-- 侧边栏、详情栏为半透明填充 + 渐变叠加的玻璃观感（不使用 backdrop-filter，避免破坏 fixed 弹层）
+- 左侧栏、右侧 Sidebar 为半透明填充 + 渐变叠加的玻璃观感（不使用 backdrop-filter，避免破坏 fixed 弹层）
 - 输入胶囊磨砂 + 聚焦光环（`:focus-within` 主题色描边）
 - 设置面板、弹窗、菜单等浮层表面接近不透明，不受背景图干扰
 - 代码块、滚动条、选中文本按 Cherry 蓝色调统一
@@ -47,7 +47,9 @@ dsh-plugin-css/
 │   │   └── index.js         # 浏览器入口：注入/卸载 <style>
 │   └── index.js             # 宿主入口（提供背景图静态路由）
 ├── scripts/
-│   ├── build.ps1            # 一键构建
+│   ├── build.mjs            # 一键构建（跨平台，优先用仓库自带 tsdown）
+│   ├── build.ps1            # Windows 构建脚本（可指定 harness 检出）
+│   ├── check-compat.mjs     # 对已安装宿主做令牌/接缝静态校验
 │   ├── clean-dist.ps1       # 清理被注入到 dist/index.html 的旧样式
 │   └── gen-css.mjs          # 从 glass.css 生成 glass-css.js
 ├── assets/                  # 背景原图（bg-light.jpg / bg-dark.png）
@@ -127,6 +129,7 @@ powershell -ExecutionPolicy Bypass -File scripts/clean-dist.ps1
 
 ## 版本记录
 
+- v0.8.1：适配 DSH v0.1.5。新增 `--dsw-alias-link` 覆写（v0.1.5 新增令牌），链接规则改用该令牌以保留宿主 hover/focus 分类样式；新增 `--dsw-alias-label-caption` / `label-dimmed` 覆写，保证新右侧 Sidebar 与交付文件卡片在半透明表面上的对比度；v0.1.5 将原 Detail 面板重构为右侧 Sidebar（布局 slot 由 `details` 变为 `rightbar`，列容器带 `data-rightbar-col`），新增右栏玻璃外观并保持"侧栏子树内禁止 backdrop-filter"约束；构建脚本改为跨平台 `scripts/build.mjs`；新增 `scripts/check-compat.mjs`（`npm run check:compat`）对已安装宿主自动校验令牌与 `data-*` 接缝
 - v0.8：适配 DSH v0.1.2-rc.1。新增 `--dsw-specific-sidebar-nav-item-active` / `hover` 令牌覆写（v0.1.2 新增）；新增 `--dsw-alias-toast-bg` / `tooltip-bg` 浮层近不透明覆写；新增 `--dsw-alias-label-primary` / `secondary` / `tertiary` 文字标签覆写，保证半透明表面上对比度；新增 `--dsw-alias-brand-primary-invert` / `brand-text` 覆写；新增 `--dsw-alias-bg-mask-*` 遮罩层覆写（灯箱/拖拽遮罩保持不透明）；新增过程折叠按钮 `[data-turn-process]`、回合尾操作 `[data-turn-tail]` 的半透明样式覆盖，与 v0.1.2 新增 UI 元素保持视觉一致；验证所有原有 43 个 `--dsw-*` 令牌均未重命名/移除，`data-slot='sidebar'` / `data-composer-card` / `data-ds-dark-theme` 等结构选择器仍然有效
 - v0.7：背景图本地化。host 半身新增 webServer 懒绑定路由（`/plugins/dsh-cherry-glass/bg-light.jpg`、`bg-dark.png`），亮/暗主题背景图改为插件自托管原图（`assets/`，随包分发），不再依赖外部图床（原 `pic1.imgdb.cn` 链接在某些网络下不可达导致背景图丢失）；`package.json` `files` 增加 `assets` 目录
 - v0.6：新增 dsh-desktop（Electron）背景图恢复规则（`html[data-dsh-desktop='true'] body`）

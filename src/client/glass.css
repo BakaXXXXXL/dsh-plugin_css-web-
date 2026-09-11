@@ -1,6 +1,17 @@
 /* =========================================================================
-   DeepSeek Harness · Cherry Studio V2 毛玻璃主题适配（v0.8）
+   DeepSeek Harness · Cherry Studio V2 毛玻璃主题适配（v0.8.1）
    （由 cherry-studio-v2-glass-theme.css 适配而来）
+
+   v0.8.1（适配 DSH v0.1.5）：
+     · 新增 --dsw-alias-link 覆写（v0.1.5 新增令牌），链接规则改用该令牌，
+       让宿主自身的链接 hover/focus 分类样式继续生效。
+     · 新增 --dsw-alias-label-caption / label-dimmed 覆写：v0.1.5 的右侧
+       Sidebar 与交付文件卡片在半透明表面上使用这两级标签，需保证对比度。
+     · v0.1.5 将原 Detail 面板重构为右侧 Sidebar（布局 slot 由 details 变为
+       rightbar，列容器带 data-rightbar-col）。新增右栏玻璃外观，与左栏同源；
+       右栏子树内同样禁止 backdrop-filter（理由见结构玻璃注释）。
+     · 验证：沿用 --dsw-* 令牌与 data-* 接缝未重命名/移除；新增
+       scripts/check-compat.mjs 在安装后的宿主上自动校验。
 
    v0.8（适配 DSH v0.1.2-rc.1）：
      · 新增 --dsw-specific-sidebar-nav-item-active / hover 令牌覆写（v0.1.2 新增）。
@@ -113,6 +124,7 @@ html body {
     --dsw-alias-brand-primary-invert: rgb(255, 255, 255);
     --dsw-alias-brand-primary-new-colorprimary-new-color: rgb(60, 130, 220);
     --dsw-alias-brand-text: rgb(60, 130, 220);
+    --dsw-alias-link: rgb(60, 130, 220);
     --dsw-alias-button-primary-fill: rgb(60, 130, 220);
     --dsw-alias-button-primary-hover: rgb(52, 116, 200);
     --dsw-alias-button-info-fill: rgb(60, 130, 220);
@@ -127,6 +139,8 @@ html body {
     --dsw-alias-label-primary: rgba(15, 17, 21, 0.92);
     --dsw-alias-label-secondary: rgba(97, 102, 107, 0.88);
     --dsw-alias-label-tertiary: rgba(129, 133, 140, 0.8);
+    --dsw-alias-label-caption: rgba(129, 133, 140, 0.72);
+    --dsw-alias-label-dimmed: rgba(173, 178, 184, 0.7);
 
     /* --- 浮层（Toast / Tooltip，近不透明） --- */
     --dsw-alias-toast-bg: rgba(251, 253, 254, 0.94);
@@ -209,6 +223,7 @@ html body[data-ds-dark-theme] {
     --dsw-alias-brand-primary-invert: rgb(15, 17, 21);
     --dsw-alias-brand-primary-new-colorprimary-new-color: rgb(70, 150, 230);
     --dsw-alias-brand-text: rgb(70, 150, 230);
+    --dsw-alias-link: rgb(70, 150, 230);
     --dsw-alias-button-primary-fill: rgb(70, 150, 230);
     --dsw-alias-button-primary-hover: rgb(92, 168, 242);
     --dsw-alias-button-info-fill: rgb(70, 150, 230);
@@ -223,6 +238,8 @@ html body[data-ds-dark-theme] {
     --dsw-alias-label-primary: rgba(249, 250, 251, 0.92);
     --dsw-alias-label-secondary: rgba(207, 211, 214, 0.85);
     --dsw-alias-label-tertiary: rgba(173, 178, 184, 0.75);
+    --dsw-alias-label-caption: rgba(173, 178, 184, 0.72);
+    --dsw-alias-label-dimmed: rgba(129, 133, 140, 0.7);
 
     /* --- 浮层 --- */
     --dsw-alias-toast-bg: rgba(34, 36, 42, 0.94);
@@ -332,7 +349,31 @@ div:has(> [data-slot='sidebar'])::before {
     pointer-events: none;
 }
 
-/* 详情栏（轨迹等）：无 blur（理由同上），其内容表面自带 --dsw-alias-bg-layer-* 背景 */
+/* -------------------------------------------------------------------------
+   结构玻璃：右侧 Sidebar（v0.8.1，DSH v0.1.5 起取代原 Detail 面板）
+   列容器带稳定接缝 [data-rightbar-col]，布局 slot 名为 'rightbar'。
+   与左栏同源：半透明填充 + 渐变叠加；同样禁止 backdrop-filter（理由同上，
+   否则固定的设置/反馈弹层会被包含块挤进右栏窄框）。全屏形态下右栏自身
+   仍走 --dsw-alias-bg-* 令牌，观感与内容表面一致。
+   ------------------------------------------------------------------------- */
+[data-rightbar-col],
+div:has(> [data-slot='rightbar']) {
+    position: relative;
+    background-color: var(--dsw-specific-sidebar-fill);
+    transition: background-color var(--cherry-glass-transition-duration) var(--cherry-glass-transition-easing);
+}
+
+[data-rightbar-col]::before,
+div:has(> [data-slot='rightbar'])::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-image:
+        linear-gradient(180deg, var(--cherry-glass-sidebar-start) 0%, var(--cherry-glass-sidebar-end) 100%),
+        radial-gradient(120% 100% at 50% 0%, var(--cherry-glass-sidebar-tint) 0%, transparent 70%);
+    pointer-events: none;
+}
 
 /* 聊天消息区：不加 backdrop-filter（灯箱 ImageLightbox 是 fixed 定位渲染在
    聊天节点内；且模糊会降低背景图清晰度）。文字/气泡/代码各自携带半透明表面。 */
@@ -392,7 +433,7 @@ html body[data-ds-dark-theme] [data-turn-process] {
    链接 / 选中文本
    ------------------------------------------------------------------------- */
 a {
-    color: var(--dsw-alias-brand-primary);
+    color: var(--dsw-alias-link);
 }
 
 ::selection {
